@@ -110,7 +110,7 @@
 				<tr >
 					<td><%=prod.getProd_id() %></td>	
 					<td><%=prod.getProd_name() %></td>	
-					<td><%=prod.getLpord_nm() %></td>	
+					<td><%=prod.getLprod_nm() %></td>	
 					<td><%=prod.getBuyer_name() %></td>	
 					<td><%=prod.getProd_price() %></td>	
 					<td><%=prod.getProd_outline() %></td>	

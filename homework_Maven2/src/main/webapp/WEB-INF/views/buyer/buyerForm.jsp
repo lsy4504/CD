@@ -71,11 +71,11 @@ $( function() {
 			</tr>
 			<tr>
 				<th>
-					거래처명
+					판매항목
 				</th>
 				<td>
 				<select name="buyer_lgu">
-				<option value="">거래처선택</option>
+				<option value="">분류</option>
 				<% for(Entry e:lprodList.entrySet()){ 
 					
 				%>

@@ -1,6 +1,7 @@
 package kr.or.ddit.buyer.controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,8 @@ import org.apache.commons.lang3.StringUtils;
 import kr.or.ddit.buyer.service.BuyerServiceImpl;
 import kr.or.ddit.buyer.service.IBuyerService;
 import kr.or.ddit.mvc.ICommandHandler;
+import kr.or.ddit.prod.dao.IOtherDAO;
+import kr.or.ddit.prod.dao.OtherDAOImpl;
 import kr.or.ddit.vo.BuyerVO;
 
 public class BuyerViewController implements ICommandHandler {
@@ -22,6 +25,9 @@ public class BuyerViewController implements ICommandHandler {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			return null;
 		}
+		IOtherDAO otherDAO= OtherDAOImpl.getInstance();
+		Map<String, String> lprodList= otherDAO.selectLprodList();
+		req.setAttribute("lprodList", lprodList);
 		IBuyerService service = BuyerServiceImpl.getInstance();
 		BuyerVO buyer= service.retrieveBuyer(buyer_id);
 		req.setAttribute("buyer", buyer);

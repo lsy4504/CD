@@ -54,8 +54,14 @@ public class BuyerServiceImpl implements IBuyerService{
 
 	@Override
 	public ServiceResult modifyBuyer(BuyerVO buyer) {
-		// TODO Auto-generated method stub
-		return null;
+		int cnt= buyerDAO.updateBuyer(buyer);
+		ServiceResult result=null;
+		if(cnt>0) {
+			result=ServiceResult.OK;
+		}else {
+			result=ServiceResult.FAILED;
+		}
+		return result;
 	}
 
 	@Override

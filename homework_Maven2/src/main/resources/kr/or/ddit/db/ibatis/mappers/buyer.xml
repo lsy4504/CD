@@ -2,69 +2,73 @@
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 <sqlMap namespace="Buyer">
 	<sql id="selectBuyerFrag">
-	SELECT                                             
-		*                                     
-		FROM   BUYER     
+		SELECT
+		*
+		FROM BUYER
 	</sql>
-	<select id="selectBuyer" parameterClass="String" resultClass="buyerVO" >
-	    <include refid="Buyer.selectBuyerFrag"/>
-		WHERE  Buyer_ID= #asd#  
+	<select id="selectBuyer" parameterClass="String"
+		resultClass="buyerVO">
+		<include refid="Buyer.selectBuyerFrag" />
+		WHERE Buyer_ID= #asd#
 	</select>
 	<select id="selectTotalRecord" resultClass="long">
 		SELECT COUNT(*)
-		FROM BUYER
+		FROM
+		BUYER
 	</select>
-	
-	<select id="selectBuyerList" resultClass="buyerVO" parameterClass="pagingVO">
+
+	<select id="selectBuyerList" resultClass="buyerVO"
+		parameterClass="pagingVO">
 		select B.*
 		FROM(
-			SELECT ROWNUM RNUM, A.*
-			FROM (
-		
-	   			 <include refid="Buyer.selectBuyerFrag"/>
-	    			ORDER BY ROWID DESC) A )B
+		SELECT ROWNUM RNUM, A.*
+		FROM (
+
+		<include refid="Buyer.selectBuyerFrag" />
+		ORDER BY ROWID DESC) A )B
 	    			<![CDATA[
 	    			WHERE RNUM>=#startRow# AND RNUM<=#endRow#
 	    			]]>
 	</select>
-	<!-- <insert id="insertBuyer" parameterClass="buyerVO">
-		INSERT INTO MEMBER (
-	MEM_ID,MEM_PASS,MEM_NAME,MEM_REGNO1,
-	MEM_REGNO2,MEM_BIR,MEM_ZIP,MEM_ADD1,
-	MEM_ADD2,MEM_HOMETEL,MEM_COMTEL,
-	MEM_HP,MEM_MAIL,MEM_JOB,MEM_LIKE,
-	MEM_MEMORIAL,MEM_MEMORIALDAY,MEM_MILEAGE
-	,MEM_AUTH
-	) VALUES (
-	#mem_id#,#mem_pass#,#mem_name#,#mem_regno1#,
-	#mem_regno2#,TO_DATE(#mem_bir#,'YYYY-MM-DD'),#mem_zip#,#mem_add1#,
-	#mem_add2#,#mem_hometel#,#mem_comtel#,
-	#mem_hp#,#mem_mail#,#mem_job#,#mem_like#,
-	#mem_memorial#,TO_DATE(#mem_memorialday#,'YYYY-MM-DD'),1000
-	,'ROLE_USER'
+	<!-- <insert id="insertBuyer" parameterClass="buyerVO"> -->
+	<!-- INSERT INTO MEMBER ( -->
+	<!-- MEM_ID,MEM_PASS,MEM_NAME,MEM_REGNO1, -->
+	<!-- MEM_REGNO2,MEM_BIR,MEM_ZIP,MEM_ADD1, -->
+	<!-- MEM_ADD2,MEM_HOMETEL,MEM_COMTEL, -->
+	<!-- MEM_HP,MEM_MAIL,MEM_JOB,MEM_LIKE, -->
+	<!-- MEM_MEMORIAL,MEM_MEMORIALDAY,MEM_MILEAGE -->
+	<!-- ,MEM_AUTH -->
+	<!-- ) VALUES ( -->
+	<!-- #mem_id#,#mem_pass#,#mem_name#,#mem_regno1#, -->
+	<!-- #mem_regno2#,TO_DATE(#mem_bir#,'YYYY-MM-DD'),#mem_zip#,#mem_add1#, -->
+	<!-- #mem_add2#,#mem_hometel#,#mem_comtel#, -->
+	<!-- #mem_hp#,#mem_mail#,#mem_job#,#mem_like#, -->
+	<!-- #mem_memorial#,TO_DATE(#mem_memorialday#,'YYYY-MM-DD'),1000 -->
+	<!-- ,'ROLE_USER' -->
+
+	<!-- ) -->
+	<!-- </insert> -->
+	<update id="updateBuyer" parameterClass="buyerVO">
+		update buyer set
+		BUYER_NAME=#buyer_name#,
+		BUYER_BANK=#buyer_bank#,
+		BUYER_BANKNO=#buyer_bankno#,
+		BUYER_BANKNAME=#buyer_bankname#,
+		BUYER_ZIP=#buyer_zip#,
+		BUYER_ADD1=#buyer_add1#,
+		BUYER_ADD2=#buyer_add2#,
+		BUYER_COMTEL=#buyer_comtel#,
+		BUYER_FAX=#buyer_fax#,
+		BUYER_MAIL=#buyer_mail#,
+		BUYER_CHARGER=#buyer_charger#,
+		BUYER_TELEXT=#buyer_telext#
+		where BUYER_ID=#buyer_id#
+
+
+	</update>
 	
-	)
-	</insert>
-	<update id="updateMember" parameterClass="memberVO">
-		update member set
-		MEM_NAME=#mem_name#,
-		MEM_ZIP=#mem_zip#,
-		MEM_ADD1=#mem_add1#,
-	MEM_ADD2=#mem_add2#,
-	MEM_HOMETEL=#mem_hometel#,
-	MEM_COMTEL=#mem_comtel#,	
-	MEM_HP=#mem_hp#,
-	MEM_MAIL=#mem_mail#,
-	MEM_JOB=#mem_job#,
-	MEM_LIKE=#mem_like#,
-	MEM_MEMORIAL=#mem_memorial#,
-	MEM_MEMORIALDAY=TO_DATE(#mem_memorialday#,'YYYY-MM-DD')
-	where MEM_ID=#mem_id#
-	
-	
-	</update>-->
-<delete id="deleteBuyer" parameterClass="String"> 
+	<delete id="deleteBuyer" parameterClass="String">
 		UPDATE BUYER SET BUYER_DELETE='Y'
 		where BUYER_ID=#asd#
-	</delete> 
-</sqlMap>
+	</delete>
+	</sqlMap>

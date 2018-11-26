@@ -1,3 +1,5 @@
+<%@page import="java.util.Map"%>
+<%@page import="java.util.Map.Entry"%>
 <%@page import="kr.or.ddit.vo.MemberVO"%>
 <%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -27,6 +29,9 @@
 	integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
 	crossorigin="anonymous"></script>
 <title>Insert title here</title>
+<% 
+Map<String,String> lprodList=(Map<String,String>) request.getAttribute("lprodList");
+%>
 <script type="text/javascript">
 $( function() {
 	<%if (StringUtils.isBlank(message)) {
@@ -34,8 +39,7 @@ $( function() {
 				session.removeAttribute("message");
 			}
 			if (StringUtils.isNotBlank(message)) {%>
-	alert("<%=message%>
-	");
+	alert("<%=message%>");
 <%}%>
 	$("[type='date']").datepicker({
 			dateFormat : "yy-mm-dd"
@@ -56,7 +60,6 @@ $( function() {
 </head>
 <body>
 	<jsp:useBean id="buyer" class="kr.or.ddit.vo.BuyerVO" scope="request"></jsp:useBean>
-	<jsp:useBean id="member" class="kr.or.ddit.vo.MemberVO" scope="request"></jsp:useBean>
 	<%
 		boolean mutable = false;
 		MemberVO authMember = (MemberVO) session.getAttribute("authMember");
@@ -72,7 +75,7 @@ $( function() {
 			value="<%=buyer.getBuyer_id()%>" />
 	</form>
 
-	<form action="<%=request.getContextPath()%>/member/memberUpdate.do"
+	<form action="<%=request.getContextPath()%>/buyer/buyerUpdate.do"
 		method="post" name="viewForm">
 		<%
 			}
@@ -82,8 +85,8 @@ $( function() {
 
 			<tr>
 				<th>판매자아이디</th>
-				<td><input type="text" name="buyer_id"
-					value="<%=buyer.getBuyer_id()%>" /><span class="error"><%=errors.get("buyer_id")%></span></td>
+				<td><input type="hidden" name="buyer_id"
+					value="<%=buyer.getBuyer_id()%>" /><span class="error"><%=buyer.getBuyer_id()%></span></td>
 			</tr>
 			<tr>
 				<th>판매처명</th>
@@ -91,9 +94,23 @@ $( function() {
 					value="<%=buyer.getBuyer_name()%>" /><span class="error"><%=errors.get("buyer_name")%></span></td>
 			</tr>
 			<tr>
-				<th>엘지유</th>
-				<td><input type="text" name="buyer_lgu"
-					value="<%=buyer.getBuyer_lgu()%>" /><span class="error"><%=errors.get("buyer_lgu")%></span></td>
+				<th>
+					판매항목
+				</th>
+				<td>
+				<select name="buyer_lgu">
+				
+				<% for(Entry e:lprodList.entrySet()){ 
+					if(e.getKey().equals(buyer.getBuyer_lgu())){
+				%>
+					<option value="<%= e.getKey() %>"><%= e.getValue() %> </option>
+				
+				<% 
+					}
+				}
+				%>
+				</select>
+				</td>
 			</tr>
 			<tr>
 				<th>은행</th>
@@ -141,7 +158,7 @@ $( function() {
 					value="<%=buyer.getBuyer_mail()%>" /><span class="error"><%=errors.get("buyer_mail")%></span></td>
 			</tr>
 			<tr>
-				<th>뭔구</th>
+				<th>대표자</th>
 				<td><input type="text" name="buyer_charger"
 					value="<%=buyer.getBuyer_charger()%>" /><span class="error"><%=errors.get("buyer_charger")%></span></td>
 			</tr>
