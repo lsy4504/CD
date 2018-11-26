@@ -10,13 +10,32 @@
 		MEM_DELETE,MEM_AUTH                                        
 		FROM   MEMBER     
 	</sql>
+	<sql id="searchFrag">
+		<dynamic prepend="WHERE " >
+	   			 	<isNotEmpty property="searchWord">
+	   			 		<isEqual property="searchType" compareValue="name">
+	   			 			MEM_NAME like '%'||#searchWord#||'%'
+	   			 		</isEqual>
+	   			 		<isEqual property="searchType" compareValue="addr">
+	   			 			MEM_ADD1 like '%'||#searchWord#||'%'
+	   			 		</isEqual>
+	   			 		<isEqual property="searchType" compareValue="all">
+	   			 			MEM_ADD1 like '%'||#searchWord#||'%'
+	   			 			OR
+	   			 			MEM_NAME like '%'||#searchWord#||'%'
+	   			 		</isEqual>
+	   			 	</isNotEmpty>
+	   			 </dynamic>
+	</sql>
 	<select id="selectMember" parameterClass="String" resultClass="memberVO" >
 	    <include refid="Member.selectMemberFrag"/>
 		WHERE  MEM_ID= #asd#  
 	</select>
-	<select id="selectTotalRecord" resultClass="long">
+	<select id="selectTotalRecord" resultClass="long" parameterClass="pagingVO">
 		SELECT COUNT(*)
 		FROM MEMBER
+	   	<include refid="Member.searchFrag"/>
+		
 	</select>
 	
 	<select id="selectMemberList" resultClass="memberVO" parameterClass="pagingVO">
@@ -26,6 +45,7 @@
 			FROM (
 		
 	   			 <include refid="Member.selectMemberFrag"/>
+	   			<include refid="Member.searchFrag"/>
 	    			ORDER BY ROWID DESC) A )B
 	    			<![CDATA[
 	    			WHERE RNUM>=#startRow# AND RNUM<=#endRow#

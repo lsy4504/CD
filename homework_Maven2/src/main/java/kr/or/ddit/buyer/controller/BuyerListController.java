@@ -12,6 +12,7 @@ import org.apache.logging.log4j.util.Strings;
 import kr.or.ddit.buyer.service.BuyerServiceImpl;
 import kr.or.ddit.buyer.service.IBuyerService;
 import kr.or.ddit.mvc.ICommandHandler;
+import kr.or.ddit.vo.BuyerVO;
 import kr.or.ddit.vo.PagingInfoVO;
 
 public class BuyerListController implements ICommandHandler {
@@ -25,12 +26,12 @@ public class BuyerListController implements ICommandHandler {
 			currentPage=Integer.parseInt(page);
 		}
 		
-		PagingInfoVO pagingInfoVO = new PagingInfoVO(5,3);
+		PagingInfoVO<BuyerVO> pagingInfoVO = new PagingInfoVO<>(5,3);
 		IBuyerService service = BuyerServiceImpl.getInstance();
 		pagingInfoVO.setCurrentPage(currentPage);
 		long totalRecord=service.retribeBuyerCount(pagingInfoVO);
 		pagingInfoVO.setTotalRecord(totalRecord);
-		pagingInfoVO.setBuyerList(service.retrieveBuyerList(pagingInfoVO));
+		pagingInfoVO.setDataList(service.retrieveBuyerList(pagingInfoVO));
 		req.setAttribute("pagingInfoVO", pagingInfoVO);
 		return view;
 		

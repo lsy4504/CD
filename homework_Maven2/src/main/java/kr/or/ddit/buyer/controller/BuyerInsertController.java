@@ -19,6 +19,8 @@ import kr.or.ddit.ServiceResult;
 import kr.or.ddit.member.service.IMemberSerivce;
 import kr.or.ddit.member.service.MemberServiceImpl;
 import kr.or.ddit.mvc.ICommandHandler;
+import kr.or.ddit.prod.dao.IOtherDAO;
+import kr.or.ddit.prod.dao.OtherDAOImpl;
 import kr.or.ddit.vo.MemberVO;
 
 public class BuyerInsertController implements ICommandHandler{
@@ -27,6 +29,9 @@ public class BuyerInsertController implements ICommandHandler{
 	public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		String method= req.getMethod();
 		String view= null;
+		IOtherDAO otherDAO= OtherDAOImpl.getInstance();
+		Map<String, String> lprodList= otherDAO.selectLprodList();
+		req.setAttribute("lprodList", lprodList);
 		if("get".equalsIgnoreCase(method)) {
 			view=doGet(req, resp);
 		}else if("post".equalsIgnoreCase(method)){

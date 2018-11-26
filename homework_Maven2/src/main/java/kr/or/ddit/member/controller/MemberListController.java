@@ -34,10 +34,14 @@ public class MemberListController implements ICommandHandler{
 		*/
 		int currentPage=1;
 		String page =req.getParameter("page");
+		String searchWord=req.getParameter("searchWord");
+		String searchType=req.getParameter("searchType");
 		if(StringUtils.isNumeric(page)) {
 			currentPage=Integer.parseInt(page);
 		}
-		PagingInfoVO pagingVO= new PagingInfoVO();
+		PagingInfoVO<MemberVO> pagingVO= new PagingInfoVO<MemberVO>(5,2);
+		pagingVO.setSearchWord(searchWord);
+		pagingVO.setSearchType(searchType);
 		pagingVO.setCurrentPage(currentPage);
 		IMemberSerivce serivce=MemberServiceImpl.getInstance();
 		long totalRecord=serivce.retribeMemberCount(pagingVO);

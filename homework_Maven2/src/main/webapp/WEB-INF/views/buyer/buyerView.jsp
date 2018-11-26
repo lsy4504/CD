@@ -44,14 +44,12 @@ $( function() {
 		$("#delBtn").on('click', function() {
 			var chk = confirm(" 정말로 탈퇴함? 리얼 투르? 실화냐 구라 즐.");
 			if (chk) {
-				var pass = prompt("비밀번호 입력하시오...");
-				if (pass) {
-					//     		document.delForm.mem_pass.value=pass;
-					$("[name='mem_pass']").val(pass);
+					var id=document.viewForm.buyer_id;
+					document.delForm.buyer_id.value=id;
 					document.delForm.submit();
 				}
 
-			}
+			
 		})
 	});
 </script>
@@ -75,7 +73,7 @@ $( function() {
 	</form>
 
 	<form action="<%=request.getContextPath()%>/member/memberUpdate.do"
-		method="post">
+		method="post" name="viewForm">
 		<%
 			}
 		%>
@@ -149,7 +147,8 @@ $( function() {
 			</tr>
 			<tr>
 				<th>활동여부</th>
-				<td><%="Y".equals(member.getMem_delete()) ? "탈" : "활"%></td>
+				<td><%="Y".equals(buyer.getBuyer_delete()) ? "탈" : "활"%></td>
+				
 			</tr>
 			<tr>
 				<td colspan="2"><input type="button" value="뒤로가기"

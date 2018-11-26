@@ -57,9 +57,9 @@ public class MemberServiceImpl  implements IMemberSerivce{
 	public ServiceResult modifyMember(MemberVO member) {
 		ServiceResult result= null;
 		MemberVO getMember=retrieveMember(member.getMem_id()); 
-//		if(getMember==null) {
-//			result=ServiceResult.PKNOTFOUND;
-//		}else {
+		if(getMember==null) {
+			result=ServiceResult.PKNOTFOUND;
+		}else {
 			if(member.getMem_pass().equals(getMember.getMem_pass())) {
 				int res=memeberDAO.updateMember(member);
 				if(res>0) {
@@ -70,7 +70,7 @@ public class MemberServiceImpl  implements IMemberSerivce{
 			}else {
 				result=ServiceResult.INVALIDPASSWORD;
 			}
-//		}
+		}
 		
 		return result;
 	}

@@ -62,9 +62,9 @@
 	where MEM_ID=#mem_id#
 	
 	
-	</update>
-	<delete id="deleteMember" parameterClass="String">
-		update member set MEM_DELETE='Y'
-		where MEM_ID=#asd#
-	</delete> -->
+	</update>-->
+<delete id="deleteBuyer" parameterClass="String"> 
+		UPDATE BUYER SET BUYER_DELETE='Y'
+		where BUYER_ID=#asd#
+	</delete> 
 </sqlMap>

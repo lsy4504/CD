@@ -1,3 +1,4 @@
+<%@page import="java.util.Objects"%>
 <%@page import="kr.or.ddit.vo.PagingInfoVO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="kr.or.ddit.vo.MemberVO"%>
@@ -16,12 +17,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<%-- <jsp:useBean id="memberList" class="java.util.ArrayList"  scope="request"></jsp:useBean> --%>
-<title>member/memberList.jsp</title>
 <% 
 	PagingInfoVO pagingVO= (PagingInfoVO)request.getAttribute("pagingVO");
 	List<MemberVO> memberList=pagingVO.getDataList();
 %>
+  <script type="text/javascript">
+  function <%=pagingVO.getFuncName()%>(page) {
+		document.searchForm.page.value=page;
+		document.searchForm.submit();
+	}
+  	
+  </script>
+<%-- <jsp:useBean id="memberList" class="java.util.ArrayList"  scope="request"></jsp:useBean> --%>
+<title>member/memberList.jsp</title>
 </head>
 <body>
 	<h4>회원 목록</h4>
@@ -59,6 +67,19 @@
 		 			<nav aria-label="Page navigation example">
  						<%= pagingVO.getPagingHTML() %>
 					</nav>
+					<form name="searchForm">
+					<input type="text" name="page"/>
+					<select name="searchType">
+						<option value="all">전체</option>
+						<option value="name">이름</option>
+						<option value="addr">지역</option>
+					</select>
+					<script type="text/javascript">
+						document.searchForm.searchType.value = "<%=Objects.toString( pagingVO.getSearchType(), "all")%>";
+					</script>
+					<input type="text" name="searchWord" value="<%= Objects.toString(pagingVO.getSearchWord(),"")  %>">
+					<input type="submit" value="검색">
+					</form>
 		 		</td>
 		 	</tr>
 		 </tfoot>

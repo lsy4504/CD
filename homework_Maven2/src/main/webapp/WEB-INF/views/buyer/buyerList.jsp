@@ -4,7 +4,7 @@
     pageEncoding="UTF-8"%>
 <jsp:useBean id="pagingInfoVO" class="kr.or.ddit.vo.PagingInfoVO" scope="request"></jsp:useBean>
 <% 
-	List<BuyerVO> buyerList=pagingInfoVO.getBuyerList();
+	List<BuyerVO> buyerList=pagingInfoVO.getDataList();
 %>
 <!DOCTYPE html>
 <html>

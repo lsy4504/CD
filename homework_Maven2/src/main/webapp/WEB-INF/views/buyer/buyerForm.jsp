@@ -1,3 +1,5 @@
+<%@page import="java.util.Map.Entry"%>
+<%@page import="java.util.Map"%>
 <%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="java.util.Objects"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -5,9 +7,12 @@
 <jsp:useBean id="buyer" class="kr.or.ddit.vo.BuyerVO" scope="request"></jsp:useBean>
 <jsp:useBean id="errors" class="java.util.HashMap" scope="request"></jsp:useBean>
 <jsp:useBean id="message" class="java.lang.String" scope="request"></jsp:useBean>
+
 <%
 	//  	String message= request.getParameter("message");
-%>
+			Map<String,String> lprodList=(Map<String,String>) request.getAttribute("lprodList");
+			
+	%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,9 +70,24 @@ $( function() {
 					value="<%=buyer.getBuyer_name()%>" /><span class="error"><%=errors.get("buyer_name")%></span></td>
 			</tr>
 			<tr>
-				<th>엘지유</th>
-				<td><input type="text" name="buyer_lgu"
-					value="<%=buyer.getBuyer_lgu()%>" /><span class="error"><%=errors.get("buyer_lgu")%></span></td>
+				<th>
+					거래처명
+				</th>
+				<td>
+				<select name="buyer_lgu">
+				<option value="">거래처선택</option>
+				<% for(Entry e:lprodList.entrySet()){ 
+					
+				%>
+					<option value="<%= e.getKey() %>"><%= e.getValue() %> </option>
+				
+				<% 
+				}
+				%>
+				
+				
+				</select>
+				</td>
 			</tr>
 			<tr>
 				<th>은행</th>
@@ -115,7 +135,7 @@ $( function() {
 					value="<%=buyer.getBuyer_mail()%>" /><span class="error"><%=errors.get("buyer_mail")%></span></td>
 			</tr>
 			<tr>
-				<th>뭔구</th>
+				<th>대표자</th>
 				<td><input type="text" name="buyer_charger"
 					value="<%=buyer.getBuyer_charger()%>" /><span class="error"><%=errors.get("buyer_charger")%></span></td>
 			</tr>

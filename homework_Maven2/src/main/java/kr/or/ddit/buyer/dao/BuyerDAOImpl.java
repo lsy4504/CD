@@ -56,8 +56,12 @@ public class BuyerDAOImpl implements IBuyerDAO {
 
 	@Override
 	public int deleteBuyer(String buyer_id) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			return 
+					sqlMapClient.delete("Buyer.deleteBuyer", buyer_id);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override

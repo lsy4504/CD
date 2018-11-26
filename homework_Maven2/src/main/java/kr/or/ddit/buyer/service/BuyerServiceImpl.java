@@ -60,8 +60,21 @@ public class BuyerServiceImpl implements IBuyerService{
 
 	@Override
 	public ServiceResult removeBuyer(BuyerVO buyer) {
-		// TODO Auto-generated method stub
-		return null;
+		BuyerVO buyerVO= retrieveBuyer(buyer.getBuyer_id());
+		ServiceResult result=null;
+		if(buyerVO!=null) {
+			int check =buyerDAO.deleteBuyer(buyerVO.getBuyer_id());
+			if(check>0) {
+				result=ServiceResult.OK;
+			}else {
+				result=ServiceResult.FAILED;
+			}
+			
+		}else {
+			result=ServiceResult.PKNOTFOUND;
+		}
+		
+		return result;
 	}
 	
 }

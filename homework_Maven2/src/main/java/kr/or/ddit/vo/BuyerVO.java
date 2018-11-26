@@ -1,5 +1,5 @@
 package kr.or.ddit.vo;
-
+//파는 물품 나오게 
 import java.io.Serializable;
 
 import lombok.Data;
