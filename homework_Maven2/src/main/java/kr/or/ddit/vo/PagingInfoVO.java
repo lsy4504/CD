@@ -29,9 +29,11 @@ public class PagingInfoVO {
 	private long totalPage;
 	private long startPage;
 	private long endPage;
+	
 	private long startRow;
 	private long endRow;
 	private List<MemberVO> dataList;
+	private List<BuyerVO> buyerList;
 	public void setTotalRecord(long totalRecord) {
 		this.totalRecord = totalRecord;
 		totalPage=totalRecord%screenSize==0?totalRecord/screenSize:totalRecord/screenSize+1;

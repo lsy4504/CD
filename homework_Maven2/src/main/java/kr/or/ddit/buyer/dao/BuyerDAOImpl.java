@@ -3,13 +3,16 @@ package kr.or.ddit.buyer.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 import com.ibatis.sqlmap.client.SqlMapClient;
 
 import kr.or.ddit.db.ibatis.CustomSqlMapClientBuilder;
 import kr.or.ddit.vo.BuyerVO;
+import kr.or.ddit.vo.PagingInfoVO;
 
 public class BuyerDAOImpl implements IBuyerDAO {
-	static IBuyerDAO buyerDAO;
+	private static IBuyerDAO buyerDAO;
 	SqlMapClient sqlMapClient;
 
 	private BuyerDAOImpl() {
@@ -35,15 +38,6 @@ public class BuyerDAOImpl implements IBuyerDAO {
 	}
 
 	@Override
-	public List<BuyerVO> selectBuyerList() {
-		try {
-			return sqlMapClient.queryForList("Buyer.selectBuyerList");
-			 } catch (SQLException e) {
-				 throw new RuntimeException(e);
-			 }
-	}
-
-	@Override
 	public int insertBuyer(BuyerVO Buyer) {
 		try {
 			return sqlMapClient.update("Buyer.insertBuyer",Buyer);
@@ -64,6 +58,24 @@ public class BuyerDAOImpl implements IBuyerDAO {
 	public int deleteBuyer(String buyer_id) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public List<BuyerVO> selectBuyerList(PagingInfoVO pagingVO) {
+		try {
+			return sqlMapClient.queryForList("Buyer.selectBuyerList", pagingVO);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public long selectTotalRecord(PagingInfoVO pagingVO) {
+		try {
+				return (Long) sqlMapClient.queryForObject("Buyer.selectTotalRecord", pagingVO);
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
 	}
 
 }

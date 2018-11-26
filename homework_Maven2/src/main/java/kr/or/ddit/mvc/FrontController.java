@@ -64,6 +64,7 @@ public class FrontController extends HttpServlet {
 //		7. 뷰선택 하지마세요
 //		8. 뷰로 이동....하지마세요
 		String view = handler.process(req, resp);
+		
 		System.out.println(view);
 		String prefix="/WEB-INF/views/";
 		String suffix=".jsp";
