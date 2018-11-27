@@ -18,8 +18,10 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script type="text/javascript">
   	function <%=pagingVO.getFuncName()%>(page) {
-		document.searchForm.page.value=page;
-		document.searchForm.submit();
+  		$("[name='searchForm']").find("[name='page']").val(page);
+// 		document.searchForm.page.value=page;
+		$("[name='searchForm']").submit();	
+// 		document.searchForm.submit();
 	}
   
   	$(function() {
@@ -45,6 +47,39 @@
 			location.href="<%=request.getContextPath()%>/prod/prodView.do?what="+prod_id;
 			
 		});
+		var listbody=$("#listBody");
+		var nav=$("#page2");
+		$("[name='searchForm']").on("submit",function(event){
+			event.preventDefault();
+			var data=$(this).serialize();//쿼리스트링 생성~
+			$.ajax({
+				data :data,
+				dataType : "json",
+				success : function(resp) {
+					alert(resp.getPagingHTML);
+					alert(resp.dataList[0].prod_id);
+					var tag="<tr>";
+					var pattern="<td>%V</td>"
+					$.each(resp.dataList,function(idx,p){
+						tag+=pattern.replace("%V",p.prod_id);
+						tag+=pattern.replace("%V",p.prod_name);
+						tag+=pattern.replace("%V",p.lprod_nm);
+						tag+=pattern.replace("%V",p.buyer_name);
+						tag+=pattern.replace("%V",p.prod_price);
+						tag+=pattern.replace("%V",p.prod_outline);
+						tag+=pattern.replace("%V",p.prod_mileage);
+					tag+="</tr>";
+					});
+					listbody.html(tag);
+					nav.html(resp.pagingHTML);
+					$("[name='page']").val(" ");
+				},
+				error : function(resp) {
+
+				}
+			});
+			return false;
+		});
 	});
   
   </script>
@@ -60,7 +95,7 @@
 <!-- 	블럭사이즈 4  -->
 	<div class="container">
 	<form name='searchForm'>
-	<input type="hidden" name="page"/>
+	<input type="text" name="page"/>
 	<select name="prod_lgu">
 		<option value=""> 분류선택</option>
 		<% 
@@ -90,6 +125,7 @@
 	<input type="submit" value="검색">
 		
 	</form>
+	<input type="button" class="btn btn-info" value="신규 상품등록" onclick="location.href='<%=request.getContextPath()%>/prod/prodInsert.do'"/> 
 	<table class="table">
 		<thead class="thead-dark">
 			<tr>
@@ -127,7 +163,7 @@
 		<tfoot>
 			<tr>
 				<td colspan="7">
-		 			<nav aria-label="Page navigation example">
+		 			<nav aria-label="Page navigation example" id='page2'>
  						<%= pagingVO.getPagingHTML() %>
 					</nav>
 				</td>

@@ -2,6 +2,8 @@ package kr.or.ddit.prod.service;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import kr.or.ddit.CommonException;
 import kr.or.ddit.ServiceResult;
 import kr.or.ddit.prod.dao.IProdDAO;
@@ -23,7 +25,16 @@ public class ProdServiceImpl implements IProdService {
 	}
 	@Override
 	public ServiceResult createProd(ProdVO prod) {
-		return null;
+		String prod_id=dao.insertProd(prod);
+		ServiceResult res=null;
+		System.out.println(prod_id);
+		if(prod_id==null) {
+			res=ServiceResult.PKDUPLICATED;
+		}else {
+			res=ServiceResult.OK;
+		}
+		System.out.println(res);
+		return res;
 	}
 	@Override
 	public ProdVO retriveProd(String pord_id) {

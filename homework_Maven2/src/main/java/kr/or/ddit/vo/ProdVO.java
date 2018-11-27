@@ -15,10 +15,17 @@ import lombok.EqualsAndHashCode;
  * 	각 VO간의 관계성을 설정
  * 	1:1 -> has a -> ProdVO has a BuyerVO
  *  1:n -> has many -> ProdVO has many MemberVO
- * 3. 테이블을 직접 조인한 쿼리 작성 (resultMap으로 결과 바인딩)
- * 4. Nested Map 방식 :resultMap을 구현시,
+ * 3-1. 테이블을 직접 조인한 쿼리 작성 (resultMap으로 결과 바인딩)
+ * 4-1. Nested Map 방식 :resultMap을 구현시,
  * 	 outerVO(ProdVO)와 InnerVO(BuyerVO,MemberVO) 역할의 resultMap들이 중첩 되도록 설정
  * 주의! 1:N 관계 조인시 , 여러건의 레코드에서 중복을 제거해야함(groupBy) 
+ * 3-2. 각 테이블로부터 데이터를 조회할 쿼리를 분리 작성.
+ * 		ex)seleceProd, selectCustomer
+ * 4-2 . Nested Select방식 : resultMap을 구현시,
+ * 			outerVO가 가진 특정 프로퍼티를 바인딩할 설정에서 select 속성을 사용하여, 추가 쿼리문을 실행함.
+ * 			ex) <result property-"customers" select="Prod.selectCustomers" column="PROD_ID"/>
+ * 		주의! 중첩된 select문에 인라인 파라미터가 사용된다면, 그러면 리절트 설정의 column  속성을 통해 값을 전달.
+ * 	lazylodingEnabled="true"일 경우 사용되지 않는 데이터는 노 조회
  * 
  */
 

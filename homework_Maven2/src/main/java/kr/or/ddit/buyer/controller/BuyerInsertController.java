@@ -16,11 +16,14 @@ import org.apache.commons.lang3.StringUtils;
 
 import kr.or.ddit.CommonException;
 import kr.or.ddit.ServiceResult;
+import kr.or.ddit.buyer.service.BuyerServiceImpl;
+import kr.or.ddit.buyer.service.IBuyerService;
 import kr.or.ddit.member.service.IMemberSerivce;
 import kr.or.ddit.member.service.MemberServiceImpl;
 import kr.or.ddit.mvc.ICommandHandler;
 import kr.or.ddit.prod.dao.IOtherDAO;
 import kr.or.ddit.prod.dao.OtherDAOImpl;
+import kr.or.ddit.vo.BuyerVO;
 import kr.or.ddit.vo.MemberVO;
 
 public class BuyerInsertController implements ICommandHandler{
@@ -48,70 +51,64 @@ public class BuyerInsertController implements ICommandHandler{
 		return view;
 	}
 	protected String doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		IMemberSerivce serivce=MemberServiceImpl.getInstance();
-		MemberVO member= new MemberVO();
-		req.setAttribute("member", member);
+		BuyerVO buyer = new BuyerVO();
+		Map<String, String> errors=new HashMap<>();
+		//넘어온값 가져오기
 		try {
-			BeanUtils.populate(member, req.getParameterMap());
-		} catch (IllegalAccessException | InvocationTargetException e) {
-			throw new CommonException(e);
+			BeanUtils.populate(buyer, req.getParameterMap());
+		} catch (Exception e) {
+			throw new CommonException();
 		}
-		
-		String message=null;
-		String gopage="member/memberForm";
-		Map<String,String> errors=new HashMap<>();
-		req.setAttribute("errors", errors);
-		boolean valid= validate(member,errors);
-		System.err.println(errors.size());
-		if(valid){
-			ServiceResult result=serivce.registMember(member);
-			switch(result){
-			case PKDUPLICATED:
-				message="아이디 중복, 바꿔용";
+		String message="";
+		req.setAttribute("errors",errors );
+		req.setAttribute("buyer", buyer);
+		String view="";
+		boolean res=validate(buyer, errors);
+		if(res) {
+			IBuyerService service=BuyerServiceImpl.getInstance();
+			ServiceResult result= service.registBuyer(buyer);
+			switch (result) {
+			case OK:
+				view="redirect:/"
 				break;
 			case FAILED:
-				message="서버 오류입니다..";
+				
 				break;
-			case OK:
-				gopage="redirect:/member/memberList.do";
+		
+
+			default:
 				break;
 			}
-			req.setAttribute("message", message);
-		}else{
-			
 		}
-		return gopage;
+		return
 		
 	
 	}
-	private boolean validate(MemberVO member, Map<String,String> errors){
+	private boolean validate(BuyerVO buyer, Map<String,String> errors){
 		boolean valid= true;
-		System.out.print("비번검증");
-		
-		//검증 룰..
-		if(StringUtils.isBlank(member.getMem_id())){
+		if(StringUtils.isBlank(buyer.getBuyer_id())){
 		valid=false;
-		errors.put("mem_id", ">회원아이디 미입력 .... <");
+		errors.put("buyer_id", "> 미입력 .... <");
 		}
-		if(StringUtils.isBlank(member.getMem_pass())){
+		if(StringUtils.isBlank(buyer.getBuyer_name())){
 		valid=false;
-		System.out.print("비번검증");
-		errors.put("mem_pass", ">비밀번호 미입력 .... <");
+		errors.put("buyer_name", "> 미입력 .... <");
 		}
-		if(StringUtils.isBlank(member.getMem_name())){
+		if(StringUtils.isBlank(buyer.getBuyer_lgu())){
 		valid=false;
-		errors.put("mem_name", ">회원명 미입력 .... <");
+		errors.put("buyer_lgu", "> 미입력 .... <");
 		}
-		if(StringUtils.isNotBlank(member.getMem_bir())){
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			//formatting : 특정타입의 데이터를 일정 형식의 문자열로 변환.
-			//parsing: 일정한 형식의 문자열을 특정 타입의 데이터로 변환.
-			try{
-			formatter.parse(member.getMem_bir());
-			}catch(ParseException e){
-				valid=false;
-				errors.put("mem_bir", ">날짜형식 확인<");
-			}
+		if(StringUtils.isBlank(buyer.getBuyer_comtel())){
+		valid=false;
+		errors.put("buyer_comtel", "> 미입력 .... <");
+		}
+		if(StringUtils.isBlank(buyer.getBuyer_fax())){
+		valid=false;
+		errors.put("buyer_fax", "> 미입력 .... <");
+		}
+		if(StringUtils.isBlank(buyer.getBuyer_mail())){
+		valid=false;
+		errors.put("buyer_mail", "> 미입력 .... <");
 		}
 		
 		return valid;

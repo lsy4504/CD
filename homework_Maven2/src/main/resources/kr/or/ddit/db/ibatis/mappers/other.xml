@@ -11,7 +11,7 @@
 		FROM BUYER
 		<dynamic prepend="WHERE ">
 			<isParameterPresent>
-		 		BUYER=#buyer_lgu#
+		 		BUYER_LGU=#buyer_lgu#
 			</isParameterPresent>
 		</dynamic>
 	

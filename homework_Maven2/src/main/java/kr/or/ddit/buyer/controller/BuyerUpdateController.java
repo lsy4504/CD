@@ -40,11 +40,13 @@ public class BuyerUpdateController implements ICommandHandler {
 			throw new CommonException(e);
 		}
 		boolean res=valid(buyer,errors);
-		String view=null;
+		String view="/buyer/buyerView";
 		String message=null;
 		if(res) {
 			ServiceResult result= service.modifyBuyer(buyer);
+			System.out.println(result);
 			switch (result) {
+			
 			case OK:
 				view="redirect:/buyer/buyerView.do?who="+buyer.getBuyer_id();
 				break;

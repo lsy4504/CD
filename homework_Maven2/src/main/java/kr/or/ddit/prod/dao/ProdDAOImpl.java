@@ -23,8 +23,14 @@ public class ProdDAOImpl implements IProdDAO {
 	}
 	@Override
 	public String insertProd(ProdVO prod) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return 
+					(String) sqlMapClient.insert("Prod.insertProd",prod);
+			//selectKet 엘리먼트에서 생성된 키값이 리턴값으로 돌아옴
+			//다운 캐스팅시 셀렉트키의 리절트클래스타입으로 해줘야함
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	@Override
 	public ProdVO selectProd(String prod_id) {

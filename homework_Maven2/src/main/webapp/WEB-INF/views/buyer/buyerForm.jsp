@@ -41,8 +41,7 @@
 <script type="text/javascript">
 $( function() {
 	<%if (StringUtils.isNotBlank(message)) {%>
-	alert("<%=message%>
-	");
+	alert("<%=message%>");
 <%}%>
 	$("[type='date']").datepicker({
 			dateFormat : "yy-mm-dd"
@@ -54,11 +53,6 @@ $( function() {
 <body>
 	<form method="post">
 		<table>
-			<tr>
-				<th>활동여부</th>
-				<td><input type="text" name="buyer_delete"
-					value="<%=buyer.getBuyer_delete()%>" /><span class="error"><%=errors.get("buyer_delete")%></span></td>
-			</tr>
 			<tr>
 				<th>판매자아이디</th>
 				<td><input type="text" name="buyer_id"
@@ -142,6 +136,11 @@ $( function() {
 			<tr>
 				<td colspan="2"><input type="submit" value="등록"> <input
 					type="reset" value="취소"></td>
+			</tr>
+			<tr>
+				<th>활동여부</th>
+				<td><input type="hidden" name="buyer_delete"
+					value="<%=buyer.getBuyer_delete()%>" /><span class="error"><%=errors.get("buyer_delete")%></span></td>
 			</tr>
 
 		</table>

@@ -1,3 +1,5 @@
+<%@page import="kr.or.ddit.vo.ProdVO"%>
+<%@page import="java.util.List"%>
 <%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="kr.or.ddit.CommonException"%>
 <%@page import="kr.or.ddit.vo.MemberVO"%>
@@ -211,5 +213,40 @@ $( function() {
 	<% if(mutable){ %>
 </form>
 <% } %>
+<h4>구매상품목록</h4>
+	<table calss="table">
+		<thead>
+			<tr>
+			<th>품번</th>
+			<th>품명</th>
+			<th>매입가</th>
+			<th>가격</th>
+			<th>상세정보?</th>
+			</tr>
+		</thead>
+		<tbody>
+				<% 
+					List<ProdVO> prodList= member.getProdList();
+				if(prodList!=null&&prodList.size()>0){
+					for(ProdVO p:prodList){
+			%>
+			<tr>
+				<td><%= p.getProd_id() %></td>
+				<td><%= p.getProd_name() %></td>
+				<td><%= p.getProd_cost() %></td>
+				<td><%= p.getProd_price() %></td>
+				<td><%= p.getProd_outline() %></td>
+			</tr>
+			<% }}else{
+				%>
+				<tr>
+					<td colspan="5"> 구매 노 상 구매 노상 거ㅈ;ㅣ냐고</td>
+				</tr>
+			<%
+					}
+			%>
+		</tbody>
+	</table>
+
 </body>
 </html>
