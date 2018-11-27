@@ -69,18 +69,21 @@ public class BuyerInsertController implements ICommandHandler{
 			ServiceResult result= service.registBuyer(buyer);
 			switch (result) {
 			case OK:
-				view="redirect:/"
+				view="redirect:/buyer/buyerList.do";
 				break;
 			case FAILED:
-				
+				view="/buyer/buyerForm";
+				message="서버 오류..";
 				break;
 		
 
 			default:
+				message="이미 존재함..";
+				view="/buyer/buyerForm";
 				break;
 			}
 		}
-		return
+		return view;
 		
 	
 	}

@@ -107,7 +107,7 @@ $( function() {
 	--%>
 		<tr>
 			<th>회원아이디</th>
-			<td><%=member.getMem_id()%> <input type="hidden" name="mem_id"
+			<td>${member.mem_id } <input type="hidden" name="mem_id"
 				value="<%=member.getMem_id()%>"  /><span class="error"><%=errors.get("mem_id")%></span></td>
 		</tr>
 		<tr>

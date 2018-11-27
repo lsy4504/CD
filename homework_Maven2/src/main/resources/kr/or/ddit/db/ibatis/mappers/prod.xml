@@ -121,6 +121,7 @@
 		ON(PROD_BUYER=BUYER_ID)
 		WHERE PROD_ID = #data#
 	</select>
+	
 	<insert id="insertProd" parameterClass="prodVO">
 		<selectKey type="pre" resultClass="String"
 			keyProperty="prod_id">

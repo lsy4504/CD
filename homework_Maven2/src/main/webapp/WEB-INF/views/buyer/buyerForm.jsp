@@ -54,9 +54,8 @@ $( function() {
 	<form method="post">
 		<table>
 			<tr>
-				<th>판매자아이디</th>
-				<td><input type="text" name="buyer_id"
-					value="<%=buyer.getBuyer_id()%>" /><span class="error"><%=errors.get("buyer_id")%></span></td>
+				<td><input type="hidden" name="buyer_id"
+					value="<%=buyer.getBuyer_id()%>" /></td>
 			</tr>
 			<tr>
 				<th>판매처명</th>
@@ -140,7 +139,7 @@ $( function() {
 			<tr>
 				<th>활동여부</th>
 				<td><input type="hidden" name="buyer_delete"
-					value="<%=buyer.getBuyer_delete()%>" /><span class="error"><%=errors.get("buyer_delete")%></span></td>
+					value="<%=buyer.getBuyer_delete()%>" /></td>
 			</tr>
 
 		</table>

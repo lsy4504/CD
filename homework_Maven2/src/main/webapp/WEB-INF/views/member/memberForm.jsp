@@ -47,7 +47,7 @@ $( function() {
 			<tr>
 				<th>회원아이디</th>
 				<td><input type="text" name="mem_id" required="required"
-					value="<%=member.getMem_id()%>" /><span class="error"><%=errors.get("mem_id")%></span></td>
+					value="${member.mem_id } " /><span class="error"><%=errors.get("mem_id")%></span></td>
 			</tr>
 			<tr>
 				<th>비밀번호</th>

@@ -27,8 +27,16 @@ public class BuyerServiceImpl implements IBuyerService{
 
 	@Override
 	public ServiceResult registBuyer(BuyerVO buyer) {
-		// TODO Auto-generated method stub
-		return null;
+		ServiceResult res=null;
+			String buyer_code=(String)buyerDAO.insertBuyer(buyer);
+			if(buyer_code!=null) {
+				res=ServiceResult.OK;
+			}else {
+				res=ServiceResult.FAILED;
+			}
+			
+		
+		return res;
 	}
 
 	@Override

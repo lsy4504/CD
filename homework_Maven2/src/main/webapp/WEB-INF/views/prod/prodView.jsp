@@ -9,8 +9,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-<jsp:useBean id="prod" class="kr.or.ddit.vo.ProdVO" scope="request"></jsp:useBean>
-<jsp:useBean id="errors" class="java.util.HashMap" scope="request"></jsp:useBean>
+	<jsp:useBean id="prod" class="kr.or.ddit.vo.ProdVO" scope="request"></jsp:useBean>
+	<jsp:useBean id="errors" class="java.util.HashMap" scope="request"></jsp:useBean>
 	<table>
 		<tr>
 			<th>상품코드</th>
@@ -24,7 +24,7 @@
 		</tr>
 		<tr>
 			<th>분류명</th>
-			<td><%= prod.getLprod_nm() %></td>
+			<td><%=prod.getLprod_nm()%></td>
 		</tr>
 		<tr>
 			<th>거래처정보</th>
@@ -32,20 +32,20 @@
 				<table>
 					<thead>
 						<tr>
-						<th>거래처명</th>
-						<th>소재지</th>
-						<th>담당자명</th>
-						<th>연라처명</th>
-						
+							<th>거래처명</th>
+							<th>소재지</th>
+							<th>담당자명</th>
+							<th>연라처명</th>
+
 						</tr>
 					</thead>
 					<tbody>
-					<tr>
-					<td><%= prod.getBuyer().getBuyer_name() %></td>
-					<td><%= prod.getBuyer().getBuyer_add1() %></td>
-					<td><%= prod.getBuyer().getBuyer_charger() %></td>
-					<td><%= prod.getBuyer().getBuyer_comtel() %></td>
-					</tr>
+						<tr>
+							<td><%=prod.getBuyer().getBuyer_name()%></td>
+							<td><%=prod.getBuyer().getBuyer_add1()%></td>
+							<td><%=prod.getBuyer().getBuyer_charger()%></td>
+							<td><%=prod.getBuyer().getBuyer_comtel()%></td>
+						</tr>
 					</tbody>
 				</table>
 			</td>
@@ -130,57 +130,55 @@
 			<td><input type="text" name="prod_mileage"
 				value="<%=prod.getProd_mileage()%>" /><span class="error"><%=errors.get("prod_mileage")%></span></td>
 		</tr>
-		
+
 	</table>
-	<% 
-		MemberVO authMember= (MemberVO)session.getAttribute("authMember");
-	boolean authorized=false;
-	if(authMember!=null&& "ROLE_ADMIN".equals(authMember.getMem_auth())){
-		authorized=true;
-	}
-	if(authorized){
+	<%
+		MemberVO authMember = (MemberVO) session.getAttribute("authMember");
+		boolean authorized = false;
+		if (authMember != null && "ROLE_ADMIN".equals(authMember.getMem_auth())) {
+			authorized = true;
+		}
+		if (authorized) {
 	%>
 	<h4>구매자 목록</h4>
 	<table>
 		<thead>
 			<tr>
-				<th>회원아이디</th>			
-				<th>회원명</th>			
-				<th>주소</th>			
-				<th>연락처</th>			
-				<th>이메일</th>			
+				<th>회원아이디</th>
+				<th>회원명</th>
+				<th>주소</th>
+				<th>연락처</th>
+				<th>이메일</th>
 			</tr>
 		</thead>
 		<tbody>
-		<% 
-		
-			List<MemberVO> customers=prod.getCustomers();
-			if(customers!=null && customers.size()>0){
-				for(MemberVO tmp: customers){
-					%>
-					<tr>
-					<td><%= tmp.getMem_id() %></td>
-					<td><%= tmp.getMem_name() %></td>
-					<td><%= tmp.getAddress() %></td>
-					<td><%= tmp.getMem_hp() %></td>
-					<td><%= tmp.getMem_mail() %></td>
-					</tr>
-					
-					<%
+			<%
+				List<MemberVO> customers = prod.getCustomers();
+					if (customers != null && customers.size() > 0) {
+						for (MemberVO tmp : customers) {
+			%>
+			<tr>
+				<td><%=tmp.getMem_id()%></td>
+				<td><%=tmp.getMem_name()%></td>
+				<td><%=tmp.getAddress()%></td>
+				<td><%=tmp.getMem_hp()%></td>
+				<td><%=tmp.getMem_mail()%></td>
+			</tr>
+
+			<%
 				}
-			}else{
-				%>
-				<tr>
-					<td colspan="5">구매좀..</td>
-				</tr>
-				<% 
-				
-			}
-	}
-				%>
-			
+					} else {
+			%>
+			<tr>
+				<td colspan="5">구매좀..</td>
+			</tr>
+			<%
+				}
+				}
+			%>
+
 		</tbody>
 	</table>
-	
+
 </body>
 </html>

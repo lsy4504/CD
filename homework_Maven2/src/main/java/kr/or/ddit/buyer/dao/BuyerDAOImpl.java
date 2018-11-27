@@ -38,9 +38,9 @@ public class BuyerDAOImpl implements IBuyerDAO {
 	}
 
 	@Override
-	public int insertBuyer(BuyerVO Buyer) {
+	public String insertBuyer(BuyerVO Buyer) {
 		try {
-			return sqlMapClient.update("Buyer.insertBuyer",Buyer);
+			return (String)sqlMapClient.insert("Buyer.insertBuyer",Buyer);
 			 } catch (SQLException e) {
 				 throw new RuntimeException(e);
 			 }
