@@ -1,0 +1,177 @@
+<%@page import="kr.or.ddit.vo.BuyerVO"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.Map.Entry"%>
+<%@page import="kr.or.ddit.vo.ProdVO"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<jsp:useBean id="pagingVO" class="kr.or.ddit.vo.PagingInfoVO" scope="request"></jsp:useBean>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">	
+  <script src="<%= request.getContextPath() %>/js/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+  	function <%=pagingVO.getFuncName()%>(page) {
+  		$("[name='searchForm']").find("[name='page']").val(page);
+// 		document.searchForm.page.value=page;
+		$("[name='searchForm']").submit();	
+// 		document.searchForm.submit();
+	}
+  
+  	$(function() {
+  		var prod_lguTag=$("[name='prod_lgu']");
+  		var prod_buyerTag=$("[name='prod_buyer']");
+		prod_lguTag.val("${pagingVO.searchVO.prod_lgu}");
+		prod_buyerTag.val("${pagingVO.searchVO.prod_buyer}");
+  		
+		$("[name='prod_lgu']").on("change",function(){
+			var lprod_gu =$(this).val()
+			var buyerOptions = $("[name='prod_buyer']").find("option");
+			$(buyerOptions).hide();
+			if(lprod_gu){
+			var buyerOptions2=$("[name='prod_buyer']").find("option."+lprod_gu);
+			$(buyerOptions2).show();
+			}else{
+			$(buyerOptions).show();
+			}
+				
+		});
+		$("#listBody").on("click","tr",function(){
+			var prod_id=$(this).find("td:first").text();
+			location.href="<%=request.getContextPath()%>/prod/prodView.do?what="+prod_id;
+			
+		});
+		var listbody=$("#listBody");
+		var nav=$("#page2");
+		$("[name='searchForm']").on("submit",function(event){
+			event.preventDefault();
+			var data=$(this).serialize();//쿼리스트링 생성~
+			$.ajax({
+				data :data,
+				dataType : "json",
+				success : function(resp) {
+					alert(resp.getPagingHTML);
+					alert(resp.dataList[0].prod_id);
+					var tag="<tr>";
+					var pattern="<td>%V</td>"
+					$.each(resp.dataList,function(idx,p){
+						tag+=pattern.replace("%V",p.prod_id);
+						tag+=pattern.replace("%V",p.prod_name);
+						tag+=pattern.replace("%V",p.lprod_nm);
+						tag+=pattern.replace("%V",p.buyer_name);
+						tag+=pattern.replace("%V",p.prod_price);
+						tag+=pattern.replace("%V",p.prod_outline);
+						tag+=pattern.replace("%V",p.prod_mileage);
+					tag+="</tr>";
+					});
+					listbody.html(tag);
+					nav.html(resp.pagingHTML);
+					$("[name='page']").val(" ");
+				},
+				error : function(resp) {
+
+				}
+			});
+			return false;
+		});
+	});
+  
+  </script>
+<title>Insert title here</title>
+</head>
+<body>
+<% 
+	List<ProdVO> prodList= pagingVO.getDataList();
+	List<Map<String,Object>> lprodList= (List)request.getAttribute("lprodList");
+	List<BuyerVO> buyerList=(List<BuyerVO>)request.getAttribute("buyerList");
+%>
+<!-- 	스크린사이즈 7 -->
+<!-- 	블럭사이즈 4  -->
+	<div class="container">
+	<form name='searchForm'>
+	<input type="text" name="page"/>
+	<select name="prod_lgu">
+		<option value=""> 분류선택</option>
+		<% 
+			for(Map<String,Object> lprod :lprodList){
+				%>
+				<option value="<%=lprod.get("LPROD_GU") %>"><%= lprod.get("LPROD_NM") %></option>
+				
+				<% 
+			}
+		%>
+	
+	</select>
+	<select name="prod_buyer">
+		<option value=""> 거래처 선택</option>
+		<% 
+			for(BuyerVO buyer:buyerList){
+		%>
+				<option value="<%=buyer.getBuyer_id() %>" class="<%= buyer.getBuyer_lgu() %>"><%=buyer.getBuyer_name()%></option>
+		<%		
+		
+			}
+		
+		%>
+		
+	</select>
+	<input type="text" name="prod_name" value="${pagingVO.searchVO.prod_name }">
+	<input type="submit" value="검색">
+		
+	</form>
+	<input type="button" class="btn btn-info" value="신규 상품등록" onclick="location.href='<%=request.getContextPath()%>/prod/prodInsert.do'"/> 
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+				<th>상품코드</th>
+				<th>상품명</th>
+				<th>분류명</th>
+				<th>거래처명</th>
+				<th>판매가</th>
+				<th>상품개요</th>
+				<th>마일리지</th>
+			</tr>
+		</thead>
+		<tbody id="listBody">
+			<% 
+			if(prodList.size()>0){
+				for(ProdVO prod:prodList){
+			%>
+				<tr >
+					<td><%=prod.getProd_id() %></td>	
+					<td><%=prod.getProd_name() %></td>	
+					<td><%=prod.getLprod_nm() %></td>	
+					<td><%=prod.getBuyer_name() %></td>	
+					<td><%=prod.getProd_price() %></td>	
+					<td><%=prod.getProd_outline() %></td>	
+					<td><%=prod.getProd_mileage() %></td>
+				</tr>	
+			<%	
+				}
+				}else{
+					out.print("노상품.");
+				}
+			%>
+			
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="7">
+		 			<nav aria-label="Page navigation example" id='page2'>
+ 						<%= pagingVO.getPagingHTML() %>
+					</nav>
+				</td>
+			</tr>
+		</tfoot>
+		
+	</table>
+	</div>
+	
+</body>
+</html>
