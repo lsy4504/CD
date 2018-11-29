@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@page import="java.util.Map.Entry"%>
 <%@page import="java.util.Map"%>
 <%@page import="org.apache.commons.lang3.StringUtils"%>
@@ -10,7 +11,8 @@
 
 <%
 	//  	String message= request.getParameter("message");
-			Map<String,String> lprodList=(Map<String,String>) request.getAttribute("lprodList");
+			List<Map<String,String>> lprodList=(List) request.getAttribute("lprodList");
+			
 			
 	%>
 <!DOCTYPE html>
@@ -69,10 +71,10 @@ $( function() {
 				<td>
 				<select name="buyer_lgu">
 				<option value="">분류</option>
-				<% for(Entry e:lprodList.entrySet()){ 
+				<% for(Map<String,String> e:lprodList){ 
 					
 				%>
-					<option value="<%= e.getKey() %>"><%= e.getValue() %> </option>
+					<option value="<%= e.k %>"><%= e.getValue() %> </option>
 				
 				<% 
 				}

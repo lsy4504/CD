@@ -39,7 +39,7 @@ public class MemberVO  implements Serializable{
 	private	List<ProdVO> prodList;
 	
 	
-
+	
 	public String getAddress() {
 		return Objects.toString(mem_add1, "")+" "+Objects.toString(mem_add2, "");
 	}

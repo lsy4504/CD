@@ -28,8 +28,8 @@ public class BuyerServiceImpl implements IBuyerService{
 	@Override
 	public ServiceResult registBuyer(BuyerVO buyer) {
 		ServiceResult res=null;
-			String buyer_code=(String)buyerDAO.insertBuyer(buyer);
-			if(buyer_code!=null) {
+			int buyer_code=buyerDAO.insertBuyer(buyer);
+			if(buyer_code>0) {
 				res=ServiceResult.OK;
 			}else {
 				res=ServiceResult.FAILED;

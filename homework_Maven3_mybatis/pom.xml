@@ -105,9 +105,14 @@
 	  <artifactId>mybatis</artifactId>
 	  <version>3.4.6</version>
 		</dependency>
-      
-      
-   </dependencies>
+
+
+      <dependency>
+      	<groupId>jstl</groupId>
+      	<artifactId>jstl</artifactId>
+      	<version>1.2</version>
+      </dependency>
+	</dependencies>
 
 
    <repositories>
