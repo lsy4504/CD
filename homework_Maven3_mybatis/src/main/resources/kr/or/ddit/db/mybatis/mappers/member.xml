@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="kr.or.ddit.member.dao.IMemeberDAO"><!--mybatis는 주로 쓰는 dao파일의 경로를 네임스페이스로 사용함 -->
+<mapper namespace="kr.or.ddit.member.dao.IMemberDAO"><!--mybatis는 주로 쓰는 dao파일의 경로를 네임스페이스로 사용함 -->
 	<sql id="selectMemberFrag">
 		SELECT
 		MEM_ID, MEM_PASS, MEM_NAME, MEM_REGNO1,MEM_REGNO2,
@@ -36,7 +36,7 @@
 		resultType="long">
 		SELECT COUNT(*)
 		FROM MEMBER
-		<include refid="kr.or.ddit.member.dao.IMemeberDAO.searchFrag" />
+		<include refid="searchFrag" />
 
 
 	</select>
@@ -47,8 +47,8 @@
 		SELECT ROWNUM RNUM, A.*
 		FROM (
 
-		<include refid="kr.or.ddit.member.dao.IMemeberDAO.selectMemberFrag" />
-		<include refid="kr.or.ddit.member.dao.IMemeberDAO.searchFrag" />
+		<include refid="kr.or.ddit.member.dao.IMemberDAO.selectMemberFrag" />
+		<include refid="kr.or.ddit.member.dao.IMemberDAO.searchFrag" />
 		ORDER BY ROWID DESC) A )B
 	    			<![CDATA[
 	    			WHERE RNUM>=#{startRow} AND RNUM<=#{endRow}

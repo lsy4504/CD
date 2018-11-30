@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Map.Entry"%>
 <%@page import="kr.or.ddit.vo.MemberVO"%>
@@ -30,7 +31,7 @@
 	crossorigin="anonymous"></script>
 <title>Insert title here</title>
 <% 
-Map<String,String> lprodList=(Map<String,String>) request.getAttribute("lprodList");
+List<Map<String,Object>> lprodList=(List) request.getAttribute("lprodList");
 %>
 <script type="text/javascript">
 $( function() {
@@ -100,10 +101,10 @@ $( function() {
 				<td>
 				<select name="buyer_lgu">
 				
-				<% for(Entry e:lprodList.entrySet()){ 
-					if(e.getKey().equals(buyer.getBuyer_lgu())){
+				<% for(Map<String,Object> e:lprodList){ 
+					if(e.get("LPROD_GU").equals(buyer.getBuyer_lgu())){
 				%>
-					<option value="<%= e.getKey() %>"><%= e.getValue() %> </option>
+					<option value="<%= e.get("LPROD_GU") %>"><%= e.get("LPROD_NM") %> </option>
 				
 				<% 
 					}

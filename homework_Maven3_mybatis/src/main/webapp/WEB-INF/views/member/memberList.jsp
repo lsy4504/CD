@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-	
+
 
 <!DOCTYPE html>
 <html>
@@ -21,10 +21,9 @@
   function ${pagingVO.funcName}(page) {
 		document.searchForm.page.value=page;
 		document.searchForm.submit();
-	}
+	};
   	
   </script>
-<%-- <jsp:useBean id="memberList" class="java.util.ArrayList"  scope="request"></jsp:useBean> --%>
 <title>member/memberList.jsp</title>
 </head>
 <body>
@@ -50,8 +49,11 @@
 			 <c:if test="${not empty memberList }">
 				<c:forEach items="${memberList }" var="member">
 		 			<tr>
+		 			<c:url value="/member/memberView.do" var="viewURL">
+		 				<c:param name="who" value="${member.mem_id }"></c:param>
+		 			</c:url>
 		 			<td>${member.mem_id }</td>
-		 			<td><a href="${pageContext.request.contextPath}/member/memberView.do?who=${member.mem_id}">${member.mem_id }</td>
+		 			<td><a href="${viewURL}">${member.mem_id }</a></td>
 		 			<td>${member.address }</td>
 		 			<td>${member.mem_hp }</td>
 		 			<td>${member.mem_mail }</td>

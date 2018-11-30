@@ -11,15 +11,15 @@ import kr.or.ddit.mybatis.CustomSqlSessionFactoryBuilder;
 import kr.or.ddit.vo.MemberVO;
 import kr.or.ddit.vo.PagingInfoVO;
 
-public class MemberDAOImpl implements IMemeberDAO {
-	static IMemeberDAO memeberDAO;
+public class MemberDAOImpl implements IMemberDAO {
+	static IMemberDAO memeberDAO;
 	private SqlSessionFactory sqlSessionFactory;
 
 	private MemberDAOImpl() {
 		sqlSessionFactory=CustomSqlSessionFactoryBuilder.getSqlSessionFactory();
 	}
 
-	public static IMemeberDAO getInstance() {
+	public static IMemberDAO getInstance() {
 		if (memeberDAO == null) {
 			memeberDAO = new MemberDAOImpl();
 		}
@@ -31,7 +31,7 @@ public class MemberDAOImpl implements IMemeberDAO {
 		try(
 				SqlSession session= sqlSessionFactory.openSession();
 		) {
-			IMemeberDAO mapper= session.getMapper(IMemeberDAO.class);
+			IMemberDAO mapper= session.getMapper(IMemberDAO.class);
 			return mapper.selectMember(mem_id);
 		} 
 	}
@@ -43,7 +43,7 @@ public class MemberDAOImpl implements IMemeberDAO {
 		){
 //			return 
 //			session.selectList("kr.or.ddit.member.dao.IMemeberDAO.selectMemberList",pagingVO);
-			IMemeberDAO mapper=session.getMapper(IMemeberDAO.class);
+			IMemberDAO mapper=session.getMapper(IMemberDAO.class);
 			return mapper.selectMemberList(pagingVO);
 		}
 	}
@@ -53,7 +53,7 @@ public class MemberDAOImpl implements IMemeberDAO {
 		try(
 				SqlSession session= sqlSessionFactory.openSession();
 				){
-			IMemeberDAO mapper= session.getMapper(IMemeberDAO.class);
+			IMemberDAO mapper= session.getMapper(IMemberDAO.class);
 			int cnt =mapper.insertMember(member);
 			if(cnt>0)
 			session.commit();
@@ -67,7 +67,7 @@ public class MemberDAOImpl implements IMemeberDAO {
 			SqlSession session = sqlSessionFactory.openSession();
 				){
 			
-			IMemeberDAO mapper= session.getMapper(IMemeberDAO.class);
+			IMemberDAO mapper= session.getMapper(IMemberDAO.class);
 			int cnt=mapper.updateMember(member);
 			if(cnt>0)session.commit();
 			return cnt;
@@ -80,7 +80,7 @@ public class MemberDAOImpl implements IMemeberDAO {
 				SqlSession session = sqlSessionFactory.openSession();
 				){
 			
-			IMemeberDAO mapper= session.getMapper(IMemeberDAO.class);
+			IMemberDAO mapper= session.getMapper(IMemberDAO.class);
 			int cnt=mapper.deleteMember(mem_id);
 			if(cnt>0)session.commit();
 			return  cnt;
@@ -95,7 +95,7 @@ public class MemberDAOImpl implements IMemeberDAO {
 			){
 //			return 
 //			session.selectOne("kr.or.ddit.member.dao.IMemeberDAO.selectTotalRecord",pagingVO);
-			IMemeberDAO mapper=	session.getMapper(IMemeberDAO.class);
+			IMemberDAO mapper=	session.getMapper(IMemberDAO.class);
 			return mapper.selectTotalRecord(pagingVO);
 					
 		} 

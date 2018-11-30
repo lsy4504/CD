@@ -74,6 +74,7 @@
 	int nextYear=cal.get(YEAR);// 다음년도
 	int nextMonth=cal.get(MONTH);//다음달
 	Locale[] locales= Locale.getAvailableLocales();
+	
 %>
 <form action="" name="calForm" method="">
 <input type="hidden" name="commend" value="calender"> 

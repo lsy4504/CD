@@ -4,13 +4,13 @@ import java.util.List;
 
 import kr.or.ddit.CommonException;
 import kr.or.ddit.ServiceResult;
-import kr.or.ddit.member.dao.IMemeberDAO;
+import kr.or.ddit.member.dao.IMemberDAO;
 import kr.or.ddit.member.dao.MemberDAOImpl;
 import kr.or.ddit.vo.MemberVO;
 import kr.or.ddit.vo.PagingInfoVO;
 
 public class MemberServiceImpl  implements IMemberSerivce{
-	IMemeberDAO memeberDAO;
+	IMemberDAO memeberDAO;
 	static IMemberSerivce memberSerivce;
 	private MemberServiceImpl() {
 		memeberDAO=MemberDAOImpl.getInstance();

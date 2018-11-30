@@ -1,3 +1,7 @@
+<%@page import="java.util.Date"%>
+<%@page import="kr.or.ddit.vo.MemberVO"%>
+<%@page import="java.util.Arrays"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -39,7 +43,7 @@
 		%>
 		${empty testAttr }, ${empty testList }
 		5)삼항연산자: 조건식? 참표현:거짓표현
-		${empty testList?"컬렉션 비어있어":"가득참" }
+		${empty testList? "컬렉션 비어있어":"가득참" }
 		
 	3.자바객체의 메소드에 대한 접근 방법 제공(since EL 2.2 version)
 		<% 

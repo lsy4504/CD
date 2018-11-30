@@ -41,6 +41,24 @@
 	<!-- 	2단부터 9던꺼자 규규던울 숭슈 1~9까지 table 태그로 출력 -->
 	<!-- 	첫번째 단은 퍼렁색 -->
 	<!-- 	네번째 단은 빨강색 -->
+	<form action="">
+		주소입력: <input type="url" name="siteUrl" value="" placeholder="https://www.naver.com"/>
+		<label><input type="checkbox"  name="toSource" value="source" ${param.toSource eq 'source' ? "checked":"" }/>소스로보기</label>
+		<input type="submit" value="gg"/>
+	</form>
+		<c:set value="${param.siteUrl }"  var="url"></c:set>
+		<c:set value="${param.toSource }"  var="pcheck"></c:set>
+	<c:if test="${not empty url }">
+		<c:set value="false"  var="check"></c:set>
+		<c:if test="${not empty pcheck }">
+		<c:set value="true"  var="check"></c:set>
+		</c:if>
+	
+	<c:import url="${url }" var="naver"></c:import>
+	<div style="border:1px solid red; ">
+		<c:out value="${naver }" escapeXml="${check }"></c:out>
+	</div>
+	</c:if>
 	<form>
 		최소단<input type="number" min="2" name="min" value="${param.min }"/> 
 		최대단 <input type="number" min="2" max="9" name="max" value="${param.max }" /> <input type="submit" value="전송">

@@ -18,7 +18,7 @@ import kr.or.ddit.vo.PagingInfoVO;
  * Copyright (c) 2018 by DDIT All right reserved
  * </pre>
  */
-public interface IMemeberDAO {
+public interface IMemberDAO {
 	/**
 	 * 	회원정보 상세 조회
 	 * @param mem_id 조회할 회원의 아이디

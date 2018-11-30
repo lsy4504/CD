@@ -1,12 +1,12 @@
 package kr.or.ddit.member.service;
 
 import kr.or.ddit.ServiceResult;
-import kr.or.ddit.member.dao.IMemeberDAO;
+import kr.or.ddit.member.dao.IMemberDAO;
 import kr.or.ddit.member.dao.MemberDAOImpl;
 import kr.or.ddit.vo.MemberVO;
 
 public class AuthenticateServiceImpl implements IAuthenticateService{
-	IMemeberDAO memeberDAO= MemberDAOImpl.getInstance();
+	IMemberDAO memeberDAO= MemberDAOImpl.getInstance();
 
 	
 	@Override

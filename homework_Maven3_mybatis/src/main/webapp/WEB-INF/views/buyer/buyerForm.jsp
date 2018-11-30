@@ -3,6 +3,7 @@
 <%@page import="java.util.Map"%>
 <%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="java.util.Objects"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <jsp:useBean id="buyer" class="kr.or.ddit.vo.BuyerVO" scope="request"></jsp:useBean>
@@ -11,15 +12,14 @@
 
 <%
 	//  	String message= request.getParameter("message");
-			List<Map<String,String>> lprodList=(List) request.getAttribute("lprodList");
-			
-			
-	%>
+	List<Map<String, Object>> lprodList = (List) request.getAttribute("lprodList");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -65,24 +65,21 @@ $( function() {
 					value="<%=buyer.getBuyer_name()%>" /><span class="error"><%=errors.get("buyer_name")%></span></td>
 			</tr>
 			<tr>
-				<th>
-					판매항목
-				</th>
-				<td>
-				<select name="buyer_lgu">
-				<option value="">분류</option>
-				<% for(Map<String,String> e:lprodList){ 
-					
-				%>
-					<option value="<%= e.k %>"><%= e.getValue() %> </option>
-				
-				<% 
-				}
-				%>
-				
-				
-				</select>
-				</td>
+				<th>판매항목</th>
+				<td><select name="buyer_lgu">
+						<option value="">분류</option>
+						<%
+							for (Map<String, Object> e : lprodList) {
+						%>
+						<option value='<%=e.get("LPROD_GU")%>'><%=e.get("LPROD_NM")%>
+						</option>
+
+						<%
+							}
+						%>
+
+
+				</select></td>
 			</tr>
 			<tr>
 				<th>은행</th>

@@ -31,7 +31,7 @@
 	integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
 	crossorigin="anonymous"></script>
 <title>Insert title here</title>
-<c:if test="${not empty message }" scope="">
+<c:if test="${not empty message }">
 			alert("${request.message}");
 </c:if>
 <script type="text/javascript">
@@ -90,22 +90,16 @@
 				<th>판매항목</th>
 				<td><select name="prod_lgu" id='sel'>
 						<option value="">분류</option>
-						<%
-							for (Map<String, Object> lprod : lprodList) {
-								pageContext.setAttribute("lprod", lprod);
-								if (lprod.get("LPROD_GU").equals(prod.getProd_lgu())) {
-						%>
-						<option value="${lprod['LPROD_GU']}" selected="selected">${lprod["LPROD_NM"]}</option>
-
-						<%
-							} else {
-						%>
-						<option value="${lprod['LPROD_GU']}">${lprod["LPROD_NM"]}</option>
-
-						<%
-							}
-							}
-						%>
+						<c:forEach items="${lprodList }" var="lprod">
+							<c:if test="${lprod['LPROD_GU'] eq prod.prod_lgu }">
+								<option value="${lprod['LPROD_GU']}" selected="selected">${lprod["LPROD_NM"]}</option>
+							
+							</c:if>
+							<c:if test="${lprod['LPROD_GU'] ne prod.prod_lgu }" >
+								<option value="${lprod['LPROD_GU']}">${lprod["LPROD_NM"]}</option>
+							
+							</c:if>
+						</c:forEach>
 
 
 				</select></td>
