@@ -72,7 +72,7 @@
 <fmt:setLocale value="${param.locale }"/>
 <c:set value="${pageContext.request.locale.forLanguageTag(param.locale) }" var="lo" />
 <%-- <c:set value="${lo1.forLanguageTag(param.locale) }" var="lo" /> --%>
-</c:if>
+</c:if>	
 
 <table>
 	<thead>

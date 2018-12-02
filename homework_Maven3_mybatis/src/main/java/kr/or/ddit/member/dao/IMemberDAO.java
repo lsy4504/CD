@@ -2,6 +2,8 @@ package kr.or.ddit.member.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import kr.or.ddit.vo.MemberVO;
 import kr.or.ddit.vo.PagingInfoVO;
 
@@ -31,7 +33,7 @@ public interface IMemberDAO {
 	 * @param pagingVO TODO
 	 * @return 존재하지 않는다면 .size() ==0;
 	 */
-	public List<MemberVO> selectMemberList(PagingInfoVO pagingVO);
+	public List<MemberVO> selectMemberList( PagingInfoVO pagingVO);
 		
 	/**
 	 * 	회원 신규 등록

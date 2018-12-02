@@ -5,6 +5,7 @@
 <%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <jsp:useBean id="message" class="java.lang.String" scope="request"></jsp:useBean>
 <!DOCTYPE html>
 <html>
@@ -19,7 +20,7 @@
 	crossorigin="anonymous">
 <link rel="stylesheet"
 	href="https://jqueryui.com/resources/demos/style.css">
-<script src="<%=request.getContextPath()%>/js/jquery-3.3.1.min.js"></script>
+<script src="${pageContext.request.contextPath }/js/jquery-3.3.1.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
 	integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
@@ -30,161 +31,120 @@
 	integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
 	crossorigin="anonymous"></script>
 <title>Insert title here</title>
-<% 
-List<Map<String,Object>> lprodList=(List) request.getAttribute("lprodList");
+<%
+	List<Map<String, Object>> lprodList = (List) request.getAttribute("lprodList");
 %>
+
 <script type="text/javascript">
-$( function() {
-	<%if (StringUtils.isBlank(message)) {
-				message = (String) session.getAttribute("message");
-				session.removeAttribute("message");
-			}
-			if (StringUtils.isNotBlank(message)) {%>
-	alert("<%=message%>");
-<%}%>
-	$("[type='date']").datepicker({
+	$(function() {
+		<c:if test="${not empty message  }">
+		<c:remove var="message" scope="session" />
+		alert("${message}");
+		</c:if>
+
+		$("[type='date']").datepicker({
 			dateFormat : "yy-mm-dd"
 
 		});
 		$("#delBtn").on('click', function() {
 			var chk = confirm(" 정말로 탈퇴함? 리얼 투르? 실화냐 구라 즐.");
 			if (chk) {
-					var id=document.viewForm.buyer_id;
-					document.delForm.buyer_id.value=id;
-					document.delForm.submit();
-				}
+				var id = document.viewForm.buyer_id;
+				document.delForm.buyer_id.value = id;
+				document.delForm.submit();
+			}
 
-			
 		})
 	});
 </script>
 </head>
 <body>
 	<jsp:useBean id="buyer" class="kr.or.ddit.vo.BuyerVO" scope="request"></jsp:useBean>
-	<%
-		boolean mutable = false;
-		MemberVO authMember = (MemberVO) session.getAttribute("authMember");
-		if (authMember != null && "ROLE_ADMIN".equals(authMember.getMem_auth())) {
-			mutable = true;
-		}
-		if (mutable) {
-	%>
-	<form name="delForm"
-		action="<%=request.getContextPath()%>/buyer/buyerDelete.do"
-		method="post">
-		<input type="hidden" name="buyer_id"
-			value="<%=buyer.getBuyer_id()%>" />
-	</form>
+	<c:set value="false" var="mutable"></c:set>
+	<c:if test="${not empty authMember }">
+		<c:set value="true" var="mutable"></c:set>
+	</c:if>
+	<c:if test="${mutable }">
 
-	<form action="<%=request.getContextPath()%>/buyer/buyerUpdate.do"
-		method="post" name="viewForm">
-		<%
-			}
-		%>
-		<jsp:useBean id="errors" class="java.util.HashMap" scope="request"></jsp:useBean>
-		<table>
+		<form name="delForm"
+			action="${pageContext.request.contextPath }/buyer/buyerDelete.do"
+			method="post">
+			<input type="hidden" name="buyer_id" value="<%=buyer.getBuyer_id()%>" />
+		</form>
 
-			<tr>
-				<th>판매자아이디</th>
-				<td><input type="hidden" name="buyer_id"
-					value="<%=buyer.getBuyer_id()%>" /><span class="error"><%=buyer.getBuyer_id()%></span></td>
-			</tr>
-			<tr>
-				<th>판매처명</th>
-				<td><input type="text" name="buyer_name"
-					value="<%=buyer.getBuyer_name()%>" /><span class="error"><%=errors.get("buyer_name")%></span></td>
-			</tr>
-			<tr>
-				<th>
-					판매항목
-				</th>
-				<td>
-				<select name="buyer_lgu">
-				
-				<% for(Map<String,Object> e:lprodList){ 
-					if(e.get("LPROD_GU").equals(buyer.getBuyer_lgu())){
-				%>
-					<option value="<%= e.get("LPROD_GU") %>"><%= e.get("LPROD_NM") %> </option>
-				
-				<% 
-					}
-				}
-				%>
-				</select>
-				</td>
-			</tr>
-			<tr>
-				<th>은행</th>
-				<td><input type="text" name="buyer_bank"
-					value="<%=buyer.getBuyer_bank()%>" /><span class="error"><%=errors.get("buyer_bank")%></span></td>
-			</tr>
-			<tr>
-				<th>계좌번호</th>
-				<td><input type="text" name="buyer_bankno"
-					value="<%=buyer.getBuyer_bankno()%>" /><span class="error"><%=errors.get("buyer_bankno")%></span></td>
-			</tr>
-			<tr>
-				<th>판매자명</th>
-				<td><input type="text" name="buyer_bankname"
-					value="<%=buyer.getBuyer_bankname()%>" /><span class="error"><%=errors.get("buyer_bankname")%></span></td>
-			</tr>
-			<tr>
-				<th>우편번호</th>
-				<td><input type="text" name="buyer_zip"
-					value="<%=buyer.getBuyer_zip()%>" /><span class="error"><%=errors.get("buyer_zip")%></span></td>
-			</tr>
-			<tr>
-				<th>주소1</th>
-				<td><input type="text" name="buyer_add1"
-					value="<%=buyer.getBuyer_add1()%>" /><span class="error"><%=errors.get("buyer_add1")%></span></td>
-			</tr>
-			<tr>
-				<th>주소2</th>
-				<td><input type="text" name="buyer_add2"
-					value="<%=buyer.getBuyer_add2()%>" /><span class="error"><%=errors.get("buyer_add2")%></span></td>
-			</tr>
-			<tr>
-				<th>전번</th>
-				<td><input type="text" name="buyer_comtel"
-					value="<%=buyer.getBuyer_comtel()%>" /><span class="error"><%=errors.get("buyer_comtel")%></span></td>
-			</tr>
-			<tr>
-				<th>팩스</th>
-				<td><input type="text" name="buyer_fax"
-					value="<%=buyer.getBuyer_fax()%>" /><span class="error"><%=errors.get("buyer_fax")%></span></td>
-			</tr>
-			<tr>
-				<th>이멜</th>
-				<td><input type="text" name="buyer_mail"
-					value="<%=buyer.getBuyer_mail()%>" /><span class="error"><%=errors.get("buyer_mail")%></span></td>
-			</tr>
-			<tr>
-				<th>대표자</th>
-				<td><input type="text" name="buyer_charger"
-					value="<%=buyer.getBuyer_charger()%>" /><span class="error"><%=errors.get("buyer_charger")%></span></td>
-			</tr>
-			<tr>
-				<th>활동여부</th>
-				<td><%="Y".equals(buyer.getBuyer_delete()) ? "탈" : "활"%></td>
-				
-			</tr>
-			<tr>
-				<td colspan="2"><input type="button" value="뒤로가기"
-					onclick="history.back();" /> <%
- 	if (mutable) {
- %> <input type="submit" value="수정" /> <input type="reset" value="리셋" />
-					<input type="button" value="탈퇴하기" id="delBtn" /> <%
- 	}
- %></td>
-			</tr>
-		</table>
-		<%
-			if (mutable) {
-		%>
-	</form>
-	<%
-		}
-	%>
+
+	</c:if>
+	<jsp:useBean id="errors" class="java.util.HashMap" scope="request"></jsp:useBean>
+	<table>
+
+		<tr>
+			<th>판매자아이디</th>
+			<td>${buyer.buyer_id }</td>
+		</tr>
+		<tr>
+			<th>판매처명</th>
+			<td>${buyer.buyer_name }</td>
+		</tr>
+		<tr>
+			<th>판매목록</th>
+			<td>${buyer.buyer_lgu }</td>
+		</tr>
+		<tr>
+			<th>은행</th>
+			<td>${buyer.buyer_bank }</td>
+		</tr>
+		<tr>
+			<th>계좌번호</th>
+			<td>${buyer.buyer_bankno }</td>
+		</tr>
+		<tr>
+			<th>판매자명</th>
+			<td>${buyer.buyer_bankname }</td>
+		</tr>
+		<tr>
+			<th>우편번호</th>
+			<td>${buyer.buyer_zip }</td>
+		</tr>
+		<tr>
+			<th>주소1</th>
+			<td>${buyer.buyer_add1 }</td>
+		</tr>
+		<tr>
+			<th>주소2</th>
+			<td>${buyer.buyer_add2 }</td>
+		</tr>
+		<tr>
+			<th>전번</th>
+			<td>${buyer.buyer_comtel }</td>
+		</tr>
+		<tr>
+			<th>팩스</th>
+			<td>${buyer.buyer_fax }</td>
+		</tr>
+		<tr>
+			<th>이멜</th>
+			<td>${buyer.buyer_mail }</td>
+		</tr>
+		<tr>
+			<th>대표자</th>
+			<td>${buyer.buyer_charger }</td>
+		</tr>
+		<tr>
+		<tr>
+			<th>탈퇴여부</th>
+			<td>${empty buyer.buyer_delete?"활":"탈"}</td>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="button" value="뒤로가기"
+				onclick="history.back();" />
+	 <c:if test="${mutable }">
+
+					<input type="submit" value="수정" onclick="location.href='${pageContext.request.contextPath }/buyer/buyerUpdate.do?who=${buyer.buyer_id }'" />
+					<input type="reset" value="리셋" />
+					<input type="button" value="탈퇴하기" id="delBtn" /></td>
+		</tr>
+	</c:if>
+	</table>
 
 </body>
 </html>

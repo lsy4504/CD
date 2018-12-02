@@ -197,8 +197,8 @@ $( function() {
 				<td>${p.prod_cost }</td>
 				<td>${p.prod_price }</td>
 				<td>${p.prod_outline}</td>
-				</c:forEach>
 				</tr>
+				</c:forEach>
 			</c:when>
 			<c:otherwise>
 				<tr>

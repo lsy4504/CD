@@ -12,17 +12,55 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<!--    <script type="text/javascript"> -->
-<%-- //   function ${pagingInfoVO.funcName}(page) {
+   <script type="text/javascript">
+  	function ${pagingInfoVO.funcName}(page) {
+  		$("[name='searchForm']").find("[name='page']").val(page);
 // 		document.searchForm.page.value=page;
+		$("[name='searchForm']").submit();	
 // 		document.searchForm.submit();
-// 	} --%>
+	};
+	var listbody=$("#listBody");
+	var nav=$("#page2");
+	$("[name='searchForm']").on("submit",function(event){
+		event.preventDefault();
+		var data=$(this).serialize();//쿼리스트링 생성~
+		$.ajax({
+			data :data,
+			dataType : "json",
+			success : function(resp) {
+				alert(resp.getPagingHTML);
+				alert(resp.dataList[0].prod_id);
+				var tag="<tr>";
+				var pattern="<td>%V</td>"
+				$.each(resp.dataList,function(idx,p){
+					tag+=pattern.replace("%V",p.prod_id);
+					tag+=pattern.replace("%V",p.prod_name);
+					tag+=pattern.replace("%V",p.lprod_nm);
+					tag+=pattern.replace("%V",p.buyer_name);
+					tag+=pattern.replace("%V",p.prod_price);
+					tag+=pattern.replace("%V",p.prod_outline);
+					tag+=pattern.replace("%V",p.prod_mileage);
+				tag+="</tr>";
+				});
+				listbody.html(tag);
+				nav.html(resp.pagingHTML);
+				$("[name='page']").val(" ");
+			},
+			error : function(resp) {
+
+			}
+		});
+		return false;
+	});
   	
-<!--   </script> -->
+  </script>
 <title>Insert title here</title>
 </head>
 <body>
 	<h4>회원 목록</h4>
+	<form name='searchForm'>
+			<input type="hidden" name="page" /> 
+		</form>
 <input type="button" class="button" value="신규등록"
 	onclick="location.href='${pageContext.request.contextPath }/buyer/buyerInsert.do'"
 />
@@ -63,9 +101,8 @@
 		 <tfoot>
 		 	<tr>
 		 		<td colspan='6'>
-		 			<nav aria-label="Page navigation example">
- 						${pagingInfoVO.pagingHTML }
-					</nav>
+		 			<nav aria-label="Page navigation example" id='page2'>${  pagingInfoVO.pagingHTML }
+						</nav>
 		 		</td>
 		 	</tr>
 		 </tfoot>

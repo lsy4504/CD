@@ -48,7 +48,7 @@
 		FROM (
 
 		<include refid="kr.or.ddit.member.dao.IMemberDAO.selectMemberFrag" />
-		<include refid="kr.or.ddit.member.dao.IMemberDAO.searchFrag" />
+		<include refid="searchFrag" />
 		ORDER BY ROWID DESC) A )B
 	    			<![CDATA[
 	    			WHERE RNUM>=#{startRow} AND RNUM<=#{endRow}
